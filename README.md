@@ -96,6 +96,36 @@ The current login flow looks like:
 If local login fails, but kerberos login succeeds create a new user, along with a home directory for the user. (createUser and pam_mkhomedir do this). There is also a fix done to their kerberos tickets so that this new user can use them (fixKRBTickets does this).
 When a logout happens, as long as it's not one of the specified system users (root, alpha, or beta), then the user gets deleted along with all their files. (this is done in cleanUser).
 
+### Skeleton home directory
+
+This contains a bunch of nice defaults for LXDM that every student will have.
+
+Overview of changes:
+* Visual
+  * Task Bar aesthetics improved
+  * Removed some of the applets (desktop, CPU usage, ...)
+* One desktop by default (in the *openbox* configuration file under `.config/openbox`)
+* [CTRL+ALT+T shortcut][keybind]
+
+**WORK IN PROGRESS** backgrounds, applications on the desktop, ... all are needed.
+
+### Thinkpad configuration
+
+Special configuration files to enable thinkpad features. Look [here][debiantrack] for the procedure used to enable trackpoint scrolling.
+Look [here][debiantap] for the documentation on how to enable tap to click.
+
+The laptop just works out of the box otherwise, except for the necessary setup of the trackpad + trackpint.
+
+TODO
+----
+
+* Move repository to AFS, and fix install_network.sh appropriately
+* Setup a good way to update lib601
+* Setup a good way to push updates to students (most likely we'll have a changing skel directory plus some extra sprinkles of things)
+* Install firefox (can we just use iceweasel perhaps?)
+* Install IDLE
+* Figure out file syncing
+
 Acknowledgements
 ----------------
 
@@ -110,3 +140,6 @@ Acknowledgements
 [md_guide]: https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet "Markdown Cheatsheet"
 [kali]: https://www.kali.org/ "Kali Linux"
 [arch601]: https://github.com/Cynary/distro6.01/ "6.01 Arch Distribution"
+[debiantrack]: https://wiki.debian.org/InstallingDebianOn/Thinkpad/Trackpoint "InstallingDebianOn/Thinkpad/Trackpoint"
+[debiantap]: https://wiki.debian.org/SynapticsTouchpad#System-wide_configuration "SynapticsTouchpad"
+[keybind]: http://askubuntu.com/questions/370304/xf86-keybinds-in-openbox "keyboard - XF86 keybinds in Openbox"
