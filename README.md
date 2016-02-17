@@ -13,6 +13,16 @@ chmod +x install.sh
 sudo ./install.sh
 ```
 
+If you want a lighter weight installer to move around, use our network installed:
+
+```bash
+chmod +x install_network.sh
+sudo ./install_network.sh
+```
+
+This one can be sent without the rest of this repository. It will do the same thing as install.sh,
+except it will also clone the repository.
+
 Overview
 --------
 
@@ -26,11 +36,10 @@ Here's a simple overview of what `install.sh` does:
    Not necessarily used by the students, but potentially useful for staff
 
 2. Install necessary packages
-  * *firmware-iwlwifi*
   * *dhcpcd5*
 
-     These packages are networking magic. The firmware has the necessary drivers, dhcpcd will
-     aggressively try to reconnect to any network on any interface.
+     This packages is networking magic, dhcpcd will
+     aggressively try to reconnect to any configured network on any interface.
 
   * *libpam-krb5*
 
@@ -54,6 +63,7 @@ Here's a simple overview of what `install.sh` does:
 
    Via the application of a lot of magic (next section explains that magic in some detail) we have a small list of files that need to be modifed
    in a default Debian Jessie system. This step just puts those files in their respective positions (the structure is replicated in this repo).
+   This step also sets the correct permissions.
 
 
 The Magic
@@ -61,9 +71,11 @@ The Magic
 
 ### Network
 
+The firmware is stored in a file, and that way we avoid having to add non-free repos to download it.
+
 The dhcpcd service agressively tries to renew connections. It won't, however, start if the interfaces in /etc/network/interfaces are setup to
 use a dhcp client already. This file simply adds the wireless network interface (this causes it to start on system startup, and try to connect
-to a specific SSID) and undoes all the damage done by the dhcp parameter every tutorial mindlessly adds at the end.
+to a specific SSID) and undoes all the damage done by the dhcp parameter every tutorial mindlessly adds at the end (we instead just add manual).
 
 Note: if needed, one can configure the wireless to use multiple networks, some using even WPA, via wpa_supplicant. This is done by creating a
 configuration file, and inserting the networks there. It was not done for the current release, as the MIT network is probably the most reliable
@@ -74,7 +86,7 @@ one for us. If so desired, an example of this can be found at [this ubuntu forum
 The *krb5.conf* simply adds a `forwardable = true` line to the file, so that you can forward tickets, and more easily login to dialup.
 
 **WORK IN PROGRESS** we might use the tickets when we have a new file synchronization mechanism. We might also do it automatically (a la firefox
-certificate stealing).
+certificate stealing, look [here][arch601 for that example).
 
 To also get Kerberos login to work, we had to modify the PAM files. The part that allowed the login to actually happen was mostly there, but it only worked if there was already a user. If that were not true, the login would fail. Modifications from a [previous project][arch601] were used, although they were and will remain largely undocumented. To better control what users get created and make sure no extra users were left on the system, we did some modifications based on the information [here][pam_unsuccessful_login], [here][pam_guide], and [here][pam_exec_man].
 
