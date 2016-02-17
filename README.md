@@ -6,7 +6,7 @@ Software distribution for setting up Debian Stable (8.3.0 Jessie) on the 6.01 cl
 Installing
 ----------
 
-Installing is simple. You simply have to run the install.sh script as root:
+Installing is simple. You simply have to run the *install.sh* script as root:
 
 ```bash
 chmod +x install.sh
@@ -20,7 +20,7 @@ chmod +x install_network.sh
 sudo ./install_network.sh
 ```
 
-This one can be sent without the rest of this repository. It will do the same thing as install.sh,
+This one can be sent without the rest of this repository. It will do the same thing as *install.sh*,
 except it will also clone the repository.
 
 Overview
