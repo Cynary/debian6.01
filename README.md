@@ -65,6 +65,11 @@ Here's a simple overview of what `install.sh` does:
    in a default Debian Jessie system. This step just puts those files in their respective positions (the structure is replicated in this repo).
    This step also sets the correct permissions.
 
+8. Update grub
+
+   One of the files we copied was the grub configuration file. This new config file sets the timeout to 0, so we don't have to wait at the load screen.
+   It does, however, require that we call `update-grub`
+
 
 The Magic
 ---------
@@ -115,6 +120,12 @@ Special configuration files to enable thinkpad features. Look [here][debiantrack
 Look [here][debiantap] for the documentation on how to enable tap to click.
 
 The laptop just works out of the box otherwise, except for the necessary setup of the trackpad + trackpint.
+
+### GRUB
+
+Changing /etc/default/grub allows you to configure grub differently. We simply remove the timeout. After that, all that is requires is to call `update-grub`
+
+**WORK IN PROGRESS** Maybe we could have a 6.01 splash screen? :D
 
 TODO
 ----
