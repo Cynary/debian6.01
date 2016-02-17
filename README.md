@@ -76,4 +76,15 @@ The *krb5.conf* simply adds a `forwardable = true` line to the file, so that you
 **WORK IN PROGRESS** we might use the tickets when we have a new file synchronization mechanism. We might also do it automatically (a la firefox
 certificate stealing).
 
+Acknowledgements
+----------------
+
+* [This markdown cheatsheet][md_guide] was very useful in designing this README
+* [Kali][kali] was invaluable to recover these files when a misstep caused the system to delete all the users and home directories, taking the initial (already well underway) version of this README with it. Needless to say, git was used immediately after that.
+
 [wireless]: http://ubuntuforums.org/showthread.php?t=1238387 "[SOLVED] Using /etc/network/interfaces to Connect with Two Different Networks"
+[pam_unsuccessful_login]: http://unix.stackexchange.com/questions/87225/pam-action-on-unsuccessful-login "pam: action on (unsuccessful) login"
+[pam_guide]: http://aplawrence.com/Basics/understandingpam.html "Understanding PAM Authentication and Security"
+[pam_exec_man]: http://linux.die.net/man/8/pam_exec "pam_exec(8) - Linux Man Page"
+[md_guide]: https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet "Markdown Cheatsheet"
+[kali]: https://www.kali.org/ "Kali Linux"
