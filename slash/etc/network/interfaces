@@ -13,5 +13,6 @@ iface eth0 inet manual
 
 auto wlan0
 iface wlan0 inet manual
-      wpa-ssid "The Hexiles"
-      wpa-psk d8154020b8b229da4a302aff196aec60a6ef55c7c1727e9a940d1847a869cc7b
+      wireless-essid "MIT"
+      #wpa-ssid "The Hexiles"
+      #wpa-psk d8154020b8b229da4a302aff196aec60a6ef55c7c1727e9a940d1847a869cc7b
