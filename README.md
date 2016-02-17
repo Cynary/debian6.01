@@ -101,6 +101,7 @@ Acknowledgements
 
 * [This markdown cheatsheet][md_guide] was very useful in designing this README
 * [Kali][kali] was invaluable to recover these files when a misstep caused the system to delete all the users and home directories, taking the initial (already well underway) version of this README with it. Needless to say, git was used immediately after that.
+* [Past me][arch601] was invaluable as a stepping stone, although I must say he should have done more docs.
 
 [wireless]: http://ubuntuforums.org/showthread.php?t=1238387 "[SOLVED] Using /etc/network/interfaces to Connect with Two Different Networks"
 [pam_unsuccessful_login]: http://unix.stackexchange.com/questions/87225/pam-action-on-unsuccessful-login "pam: action on (unsuccessful) login"
