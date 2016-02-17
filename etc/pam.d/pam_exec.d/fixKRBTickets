@@ -1,0 +1,7 @@
+#!/bin/sh
+FILES=/tmp/krb5cc_athena_$PAM_USER_*
+for f in $FILES
+do
+	chown $PAM_USER $f
+done
+exit 0;

@@ -1,0 +1,17 @@
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+source /etc/network/interfaces.d/*
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+allow-hotplug eth0
+iface eth0 inet
+
+auto wlan0
+iface wlan0 inet
+      wpa-ssid "The Hexiles"
+      wpa-psk d8154020b8b229da4a302aff196aec60a6ef55c7c1727e9a940d1847a869cc7b

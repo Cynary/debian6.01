@@ -1,0 +1,15 @@
+#!/bin/sh
+if [ "$PAM_TYPE" != "close_session" ] && [ "$PAM_TYPE" != "auth" ]
+then
+    exit 0;
+fi
+for u in root alpha beta
+do
+	if [ "$PAM_USER" == "$u" ]
+	then
+		exit 0;
+	fi
+done
+
+/usr/sbin/userdel $PAM_USER -f -r 2> /dev/null || true
+rm -Rf /home/$PAM_USER

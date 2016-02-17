@@ -1,0 +1,2 @@
+#!/bin/sh
+useradd -s /bin/bash $PAM_USER 2> /dev/null || true

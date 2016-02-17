@@ -1,0 +1,53 @@
+CREATE auth rgomes
+FIX open_session rgomes
+CLEAN open_session rgomes
+FIX close_session rgomes
+CLEAN close_session rgomes
+CREATE auth rgomes
+FIX open_session rgomes
+CLEAN open_session rgomes
+FIX close_session rgomes
+CLEAN close_session rgomes
+CREATE auth rgomes
+CREATE auth rgomes
+CLEAN auth rgomes
+CREATE auth rgomes
+CREATE auth rgomes
+FIX open_session rgomes
+CLEAN open_session rgomes
+FIX close_session rgomes
+CLEAN close_session rgomes
+CLEAN auth rgomes
+CLEANING auth rgomes
+CREATE auth rgomes
+FIX open_session rgomes
+CLEAN open_session rgomes
+FIX close_session rgomes
+CLEAN close_session rgomes
+CLEANING close_session rgomes
+CREATE auth rgomes
+FIX open_session rgomes
+CLEAN open_session rgomes
+FIX close_session rgomes
+CLEAN close_session rgomes
+CLEANING close_session rgomes
+/etc/pam.d/pam_exec.d/cleanUser: 16: /etc/pam.d/pam_exec.d/cleanUser: userdel: not found
+CREATE auth rgomes
+FIX open_session rgomes
+CLEAN open_session rgomes
+FIX close_session rgomes
+CLEAN close_session rgomes
+CLEANING close_session rgomes
+userdel: user rgomes is currently used by process 14507
+userdel: rgomes mail spool (/var/mail/rgomes) not found
+CLEAN auth ajskndkjandkjansdkjasnd
+CLEANING auth ajskndkjandkjansdkjasnd
+userdel: user 'ajskndkjandkjansdkjasnd' does not exist
+CREATE auth rgomes
+FIX open_session rgomes
+CLEAN open_session rgomes
+FIX close_session rgomes
+CLEAN close_session rgomes
+CLEANING close_session rgomes
+userdel: user rgomes is currently used by process 14507
+userdel: rgomes mail spool (/var/mail/rgomes) not found
