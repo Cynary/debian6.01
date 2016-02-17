@@ -31,3 +31,5 @@ do
     chmod $PERMS /$f
     chown $OWNER:$GROUP /$f
 done
+
+update-grub
