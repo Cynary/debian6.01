@@ -7,23 +7,27 @@ systemctl enable dhcpcd
 echo "alias python=python3" >> /etc/bash.bashrc
 
 # Special added files+directory
-cp -r slash/etc/pam.d/pam_exec.d /etc/pam.d
-chmod 755 /etc/pam.d/pam_exec.d/*
-chown -R 0:0 /etc/pam.d/pam_exec.d
-
-cp slash/lib/firmware/iwlwifi-1000-5.ucode /lib/firmware
-chmod 755 /lib/firmware/iwlwifi-1000-5.ucode
-chown -R 0:0 /lib/firmware/iwlwifi-1000-5.ucode
-
-cp slash/usr/share/X11/xorg.conf.d/20-thinkpad.conf /usr/share/X11/xorg.conf.d
-chmod 644 /usr/share/X11/xorg.conf.d/20-thinkpad.conf
-chown 0:0 /usr/share/X11/xorg.conf.d/20-thinkpad.conf
-
-cp -r slash/etc/skel /etc
-chown 0:0 -R /etc/skel
+function install() {
+    cp -r slash$1 $1
+    if [[ $# > 1 ]]
+    then
+	chmod -R $2 $1
+    fi
+    chown -R 0:0 $1
+}
+install /etc/pam.d/pam_exec.d 755
+install /lib/firmware/iwlwifi-1000-5.ucode 755
+install /usr/share/X11/xorg.conf.d/20-thinkpad.conf 644
+install /etc/skel
+install /etc/wpa_supplicant/wpa_supplicant.conf
 
 for f in `find slash -type f | cut -d'/' -f2-`
 do
+    if [ ! -e /$f ]
+    then
+	echo "Invalid file /$f"
+	exit 1
+    fi
     PERMS=`stat -c "%a" /$f`
     OWNER=`stat -c "%u" /$f`
     GROUP=`stat -c "%g" /$f`

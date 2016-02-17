@@ -80,7 +80,8 @@ The firmware is stored in a file, and that way we avoid having to add non-free r
 
 The dhcpcd service agressively tries to renew connections. It won't, however, start if the interfaces in /etc/network/interfaces are setup to
 use a dhcp client already. This file simply adds the wireless network interface (this causes it to start on system startup, and try to connect
-to a specific SSID) and undoes all the damage done by the dhcp parameter every tutorial mindlessly adds at the end (we instead just add manual).
+to a specific SSID configured to be used by wpa_supplicant) and undoes all the damage done by the dhcp parameter every tutorial mindlessly adds
+at the end (we instead just add manual).
 
 Note: if needed, one can configure the wireless to use multiple networks, some using even WPA, via wpa_supplicant. This is done by creating a
 configuration file, and inserting the networks there. It was not done for the current release, as the MIT network is probably the most reliable
