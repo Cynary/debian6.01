@@ -7,7 +7,7 @@ systemctl enable dhcpcd
 echo "alias python=python3" >> /etc/bash.bashrc
 
 # Get the files
-$REPO=`mktemp -d`
+REPO=`mktemp -d`
 git clone http://github.com/Cynary/debian6.01 $REPO
 cd $REPO
 
