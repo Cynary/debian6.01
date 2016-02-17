@@ -15,6 +15,13 @@ cp slash/lib/firmware/iwlwifi-1000-5.ucode /lib/firmware
 chmod 755 /lib/firmware/iwlwifi-1000-5.ucode
 chown -R 0:0 /lib/firmware/iwlwifi-1000-5.ucode
 
+cp slash/usr/share/X11/xorg.conf.d/20-thinkpad.conf /usr/share/X11/xorg.conf.d
+chmod 644 /usr/share/X11/xorg.conf.d/20-thinkpad.conf
+chown 0:0 /usr/share/X11/xorg.conf.d/20-thinkpad.conf
+
+cp -r slash/etc/skel /etc
+chown 0:0 -R /etc/skel
+
 for f in `find slash -type f | cut -d'/' -f2-`
 do
     PERMS=`stat -c "%a" /$f`
