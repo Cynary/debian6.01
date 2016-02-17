@@ -76,6 +76,14 @@ The *krb5.conf* simply adds a `forwardable = true` line to the file, so that you
 **WORK IN PROGRESS** we might use the tickets when we have a new file synchronization mechanism. We might also do it automatically (a la firefox
 certificate stealing).
 
+To also get Kerberos login to work, we had to modify the PAM files. The part that allowed the login to actually happen was mostly there, but it only worked if there was already a user. If that were not true, the login would fail. Modifications from a [previous project][arch601] were used, although they were and will remain largely undocumented. To better control what users get created and make sure no extra users were left on the system, we did some modifications based on the information [here][pam_unsuccessful_login], [here][pam_guide], and [here][pam_exec_man].
+
+**BE VERY CAREFUL MAKING CHANGES LIKE THIS**. A small mistake during development caused the system to delete every user in the system along with every home directory. The original draft for this project lived in that original system. The files were all recovered thanks to file recovery programs but it was an unpleasant experience.
+
+The current login flow looks like:
+If local login fails, but kerberos login succeeds create a new user, along with a home directory for the user. (createUser and pam_mkhomedir do this). There is also a fix done to their kerberos tickets so that this new user can use them (fixKRBTickets does this).
+When a logout happens, as long as it's not one of the specified system users (root, alpha, or beta), then the user gets deleted along with all their files. (this is done in cleanUser).
+
 Acknowledgements
 ----------------
 
@@ -88,3 +96,4 @@ Acknowledgements
 [pam_exec_man]: http://linux.die.net/man/8/pam_exec "pam_exec(8) - Linux Man Page"
 [md_guide]: https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet "Markdown Cheatsheet"
 [kali]: https://www.kali.org/ "Kali Linux"
+[arch601]: https://github.com/Cynary/distro6.01/ "6.01 Arch Distribution"
