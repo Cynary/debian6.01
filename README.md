@@ -135,7 +135,7 @@ Changing /etc/default/grub allows you to configure grub differently. We simply r
 Ori File System
 ---------------
 
-[link][oripage], [link][oriinstall], [link][oripaper], [source][orisource].
+[link][oripage], [link][oriinstall], [link][oripaper], [source][oridl].
 
 TODO
 ----
