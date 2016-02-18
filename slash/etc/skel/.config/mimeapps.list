@@ -1,5 +1,7 @@
 [Default Applications]
 inode/directory=pcmanfm.desktop
+image/png=gpicview.desktop
 
 [Added Associations]
 inode/directory=pcmanfm.desktop;
+image/png=gpicview.desktop;
