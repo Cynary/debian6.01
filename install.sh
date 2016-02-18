@@ -4,7 +4,7 @@ function fail() {
     exit 1
 }
 apt-get update || fail "Update"
-apt-get install emacs-nox dhcpcd5 git build-essential tmux libpam-krb5 -y || fail "Package install"
+apt-get install emacs-nox dhcpcd5 git build-essential tmux libpam-krb5 krb5-user -y || fail "Package install"
 apt-get remove wicd -y || fail "Package removal"
 apt-get autoremove -y || fail "Package removal"
 
