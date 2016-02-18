@@ -13,6 +13,7 @@ echo "alias python=python3" >> /etc/bash.bashrc
 
 # Special added files+directory
 function install() {
+    rm -rf $1
     cp -r slash$1 $1 || fail "Installing $1"
     if [[ $# > 1 ]]
     then
