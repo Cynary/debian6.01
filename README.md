@@ -70,6 +70,10 @@ Here's a simple overview of what `install.sh` does:
    One of the files we copied was the grub configuration file. This new config file sets the timeout to 0, so we don't have to wait at the load screen.
    It does, however, require that we call `update-grub`
 
+9. Install orifs
+
+   OriFS is used to keep the students' files in sync.
+
 
 The Magic
 ---------
@@ -128,6 +132,11 @@ Changing /etc/default/grub allows you to configure grub differently. We simply r
 
 **WORK IN PROGRESS** Maybe we could have a 6.01 splash screen? :D
 
+Ori File System
+---------------
+
+[link][oripage], [link][oriinstall], [link][oripaper], [source][orisource].
+
 TODO
 ----
 
@@ -155,3 +164,7 @@ Acknowledgements
 [debiantrack]: https://wiki.debian.org/InstallingDebianOn/Thinkpad/Trackpoint "InstallingDebianOn/Thinkpad/Trackpoint"
 [debiantap]: https://wiki.debian.org/SynapticsTouchpad#System-wide_configuration "SynapticsTouchpad"
 [keybind]: http://askubuntu.com/questions/370304/xf86-keybinds-in-openbox "keyboard - XF86 keybinds in Openbox"
+[oripage]: http://ori.scs.stanford.edu/ "Ori File System"
+[oridl]: https://bitbucket.org/orifs/ori/downloads/ori-0.8.1.tar.xz "Ori Source"
+[oriinstall]: https://bitbucket.org/orifs/ori/overview "orifs / ori - Bitbucket"
+[oripaper]: http://sigops.org/sosp/sosp13/papers/p151-mashtizadeh.pdf "Replication, History, and Grafting in the Ori File System"
