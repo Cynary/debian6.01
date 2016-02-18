@@ -37,3 +37,11 @@ do
 done
 
 update-grub
+
+# Install orifs
+# apt-get install scons pkg-config libboost-dev uuid-dev libfuse-dev libevent-dev libssl-dev -y
+# wget https://bitbucket.org/orifs/ori/downloads/ori-0.8.1.tar.xz
+# tar jvxf ori-0.8.1.tar.xz
+# cd ori-0.8.1
+# scons
+# scons PREFIX=/usr/local install
