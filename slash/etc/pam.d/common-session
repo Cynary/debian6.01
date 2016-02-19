@@ -22,7 +22,6 @@ session	requisite			pam_deny.so
 session	required			pam_permit.so
 
 session	required			pam_mkhomedir.so skel=/etc/skel umask=0022
-session	required			pam_exec.so	 /etc/pam.d/pam_exec.d/fixKRBTickets
 session	optional			pam_exec.so	 /etc/pam.d/pam_exec.d/cleanUser
 # and here are more per-package modules (the "Additional" block)
 session	optional			pam_krb5.so minimum_uid=1000
