@@ -85,11 +85,9 @@ The firmware is stored in a file, and that way we avoid having to add non-free r
 The dhcpcd service agressively tries to renew connections. It won't, however, start if the interfaces in /etc/network/interfaces are setup to
 use a dhcp client already. This file simply adds the wireless network interface (this causes it to start on system startup, and try to connect
 to a specific SSID configured to be used by wpa_supplicant) and undoes all the damage done by the dhcp parameter every tutorial mindlessly adds
-at the end (we instead just add manual).
-
-Note: if needed, one can configure the wireless to use multiple networks, some using even WPA, via wpa_supplicant. This is done by creating a
-configuration file, and inserting the networks there. It was not done for the current release, as the MIT network is probably the most reliable
-one for us. If so desired, an example of this can be found at [this ubuntu forums thread][wireless].
+at the end (we instead just add manual). The network configuration is all done in */etc/wpa_supplicant/wpa_supplicant.conf* and other networks
+can be added, even if they are WPA/WPA2 networks. The guide at [this ubuntu forums thread][wireless] was followed to set this up (it turns out
+that the only way to get reliable wireless is to rely on wpa_supplicant - using the interfaces file was attempted, but did not work out).
 
 ### Kerberos login/tickets
 
@@ -103,7 +101,7 @@ To also get Kerberos login to work, we had to modify the PAM files. The part tha
 **BE VERY CAREFUL MAKING CHANGES LIKE THIS**. A small mistake during development caused the system to delete every user in the system along with every home directory. The original draft for this project lived in that original system. The files were all recovered thanks to file recovery programs but it was an unpleasant experience.
 
 The current login flow looks like:
-If local login fails, but kerberos login succeeds create a new user, along with a home directory for the user. (createUser and pam_mkhomedir do this). There is also a fix done to their kerberos tickets so that this new user can use them (fixKRBTickets does this).
+If local login fails, but kerberos login succeeds create a new user, along with a home directory for the user. (createUser and pam_mkhomedir do this).
 When a logout happens, as long as it's not one of the specified system users (root, alpha, or beta), then the user gets deleted along with all their files. (this is done in cleanUser).
 
 ### Skeleton home directory
@@ -116,8 +114,45 @@ Overview of changes:
   * Removed some of the applets (desktop, CPU usage, ...)
 * One desktop by default (in the *openbox* configuration file under `.config/openbox`)
 * [CTRL+ALT+T shortcut][keybind]
+* 6.01 Background
+* 6.01 icon for taskbar menu
+* Adding volume control applet and enabling media buttons
+* Have SSH automatically delegate kerberos tickets
+* Not using GIMP for opening image files by default, instead use image viewer
+* Opening the terminal automatically on login
+* Setting up autostart to run a script called login.sh in case we need to do updates on login, or to the directory/file structure.
 
-**WORK IN PROGRESS** backgrounds, applications on the desktop, ... all are needed.
+**WORK IN PROGRESS** applications on the desktop, ... all are needed.
+
+### Miscelaneous Configuration changes
+
+There's a few miscelaneous changes with the objective of making the experience better:
+* Making DuckDuckGo the default search engine rather than Yahoo
+* Setting up the lightdm greeter to use the 6.01 background
+* Making sue the greeter does not display a user list.
+
+### */etc/601*
+
+This special directory contains 6.01-specific files:
+* *wallpaper.svg* - background for greeter+desktop
+* *login.sh* - run automatically on login
+* *data/* - directory where we store the encrypted user's information (to be synced over orifs)
+
+#### */etc/601/data/*
+
+The *data/* directory contains the ecrypted home directories of kerberos users. This directory is synchronized with orifs (**TODO** should we just
+mount these on login, and have an orifs system for each home directory?)
+so students can login in any machine and still have their home directories (**TODO**: should we only store certain parts or everything?).
+When a user logs in, a script checks if there is already a home directory in the *data/* directory. If there is, then that one is decrypted and
+used. If there isn't, then a new home directory is created from */etc/skel*, encrypted, and stored in *data/*.
+
+**TODO**: to decide whether each student should have their own orifs system, or whether to store them all in the same system. If they have their
+own, then the first step post login is to try and mount it, which could be bad if the network is down.
+
+The general procedure to do this was taken from [here][encfsssetup].
+
+**WORK IN PROGRESS** need to put an updater script here, and configure systemd to use it; also need to put lib601 installer here; need to setup
+orifs + encfs.
 
 ### Thinkpad configuration
 
@@ -168,3 +203,4 @@ Acknowledgements
 [oridl]: https://bitbucket.org/orifs/ori/downloads/ori-0.8.1.tar.xz "Ori Source"
 [oriinstall]: https://bitbucket.org/orifs/ori/overview "orifs / ori - Bitbucket"
 [oripaper]: http://sigops.org/sosp/sosp13/papers/p151-mashtizadeh.pdf "Replication, History, and Grafting in the Ori File System"
+[encfssetup]: https://www.howtoforge.com/encrypting_encfs_pam_script "Creating a safe directory with PAM and EncFS"
