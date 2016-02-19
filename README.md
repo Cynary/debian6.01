@@ -32,6 +32,7 @@ Here's a simple overview of what `install.sh` does:
   * *emacs-nox*
   * *tmux*
   * *build-essential*
+  * *git*
 
    Not necessarily used by the students, but potentially useful for staff
 
@@ -163,9 +164,7 @@ The laptop just works out of the box otherwise, except for the necessary setup o
 
 ### GRUB
 
-Changing /etc/default/grub allows you to configure grub differently. We simply remove the timeout. After that, all that is requires is to call `update-grub`
-
-**WORK IN PROGRESS** Maybe we could have a 6.01 splash screen? :D
+Changing /etc/default/grub allows you to configure grub differently. We simply remove the timeout. After that, all that is requires is to call `update-grub`. We also make the background for grub to be the 6.01 wallpaper image as described [here][grubbg].
 
 Ori File System
 ---------------
@@ -204,3 +203,4 @@ Acknowledgements
 [oriinstall]: https://bitbucket.org/orifs/ori/overview "orifs / ori - Bitbucket"
 [oripaper]: http://sigops.org/sosp/sosp13/papers/p151-mashtizadeh.pdf "Replication, History, and Grafting in the Ori File System"
 [encfssetup]: https://www.howtoforge.com/encrypting_encfs_pam_script "Creating a safe directory with PAM and EncFS"
+[grubbg]: http://www.howtogeek.com/196655/how-to-configure-the-grub2-boot-loaders-settings/ "How to configure the GRUB2 Boot Loader's Settings"
