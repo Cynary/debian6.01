@@ -26,6 +26,7 @@ install /lib/firmware/iwlwifi-1000-5.ucode 755
 install /usr/share/X11/xorg.conf.d/20-thinkpad.conf 644
 install /etc/skel
 install /etc/wpa_supplicant/wpa_supplicant.conf
+install /etc/601 644
 
 for f in `find slash -type f | cut -d'/' -f2-`
 do
