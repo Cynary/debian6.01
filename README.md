@@ -149,7 +149,7 @@ used. If there isn't, then a new home directory is created from */etc/skel*, enc
 **TODO**: to decide whether each student should have their own orifs system, or whether to store them all in the same system. If they have their
 own, then the first step post login is to try and mount it, which could be bad if the network is down.
 
-The general procedure to do this was taken from [here][encfsssetup].
+The general procedure to do this was taken from [here][encfssetup].
 
 **WORK IN PROGRESS** need to put an updater script here, and configure systemd to use it; also need to put lib601 installer here; need to setup
 orifs + encfs.
