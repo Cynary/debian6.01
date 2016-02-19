@@ -27,6 +27,7 @@ install /usr/share/X11/xorg.conf.d/20-thinkpad.conf 644
 install /etc/skel
 install /etc/wpa_supplicant/wpa_supplicant.conf
 install /etc/601 755
+install /etc/601/data 777
 
 for f in `find slash -type f | cut -d'/' -f2-`
 do
