@@ -171,6 +171,35 @@ Ori File System
 
 [link][oripage], [link][oriinstall], [link][oripaper], [source][oridl].
 
+Notes:
+
+This is really annoying to setup. First, everyone must be able to ssh to each other with no issues, which means a lot of key sharing. I believe the safest way to go about this is to have one underprivileged user on all systems whose job is to just be the orifs "talker". This user must be the one to setup orisync with orisync init (**MAKE SURE TO CALL ORISYNC INIT**), create the repos with ori: `ori newfs repo-name` on the first system and `ori replicate --shallow USER@HOST:repo-name repo-name`, and mount them: `orifs repo-name`.
+**NOTE**: orisync MUST be started before orifs is called to mount the repo, otherwise everything fails. Recommend that this is put in a startup script somehow. NOTE: orisync must be setup to track the repos, but their location is weird: always `~/.ori/repo-name.ori/`.
+
+So, an example setup looks like:
+### Remote system
+
+Separately run orisync init and configuration. You should be able to just generate the file structure for orisync separately. Interestingly, it seems the key is always the same. Maybe we can have a more secure key by just generating it ourselves separately.
+Make sure that this user's ssh key is installed in the local system. Make sure there is an ssh server running.
+
+`bash
+ori newfs $REPO # Adds filesystem to repo list
+mkdir $REPO # we're mounting it here
+orisync # starts orisync
+orifs $REPO # mounts repo
+`
+
+### Local system
+
+Same story about orisync init and possibly using directory+file structure to do everything. Make sure that your public key is in the remote system and that there is an ssh server running locally as well.
+
+`bash
+ori replicate --shallow $USER@$REMOTE:$REPO
+mkdir $REPO
+orisync
+orifs $REPO
+`
+
 TODO
 ----
 

@@ -43,7 +43,8 @@ done
 update-grub
 
 # Install orifs
-# apt-get install scons pkg-config libboost-dev uuid-dev libfuse-dev libevent-dev libssl-dev fuse -y
+# apt-get install scons pkg-config libboost-dev uuid-dev libfuse-dev libevent-dev libssl-dev fuse libedit-dev ntp openssh-server -y
+# systemctl enable ntp
 # wget https://bitbucket.org/orifs/ori/downloads/ori-0.8.1.tar.xz
 # tar Jvxf ori-0.8.1.tar.xz
 # cd ori-0.8.1
