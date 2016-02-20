@@ -1,15 +1,40 @@
-#!/bin/sh
-if [ "$PAM_TYPE" != "close_session" ]
+#!/bin/bash
+
+# Extraction of user properties and checking if user is active
+# based heavily on https://www.howtoforge.com/encrypting_encfs_pam_script
+userid=$PAM_USER
+userproperties=$(getent passwd | grep -m 1 -E "^$userid")
+if [ -z $userproperties ]
 then
+   # User not found? Weird ...
+   exit 1
+   
+fi
+
+homedir=$(echo $userproperties | cut -d ":" -f6)
+
+if [ $(w -h $userid | wc -l) -ne 0 ]
+then
+    # User is logged in on other terminals, let's not terminate user
     exit 0;
 fi
-for u in root alpha beta
+
+if [ "$PAM_TYPE" != "close_session" ]
+then
+    # User is not logging out of a session
+    exit 0;
+fi
+
+for u in root alpha beta orifs_user
 do
-    if [ "$PAM_USER" = "$u" ]
+    if [ "$userid" = "$u" ]
     then
+	# User is special system user - check if there's a way to determine
+	# if it's kerberos. Maybe I should just create a flag for users I
+	# create somewhere, in a file.
 	exit 0;
     fi
 done
 
-/usr/sbin/userdel $PAM_USER -f -r 2> /dev/null || true
-rm -Rf /home/$PAM_USER
+/usr/sbin/userdel $userid -f -r 2> /dev/null || true
+rm -Rf $homedir
