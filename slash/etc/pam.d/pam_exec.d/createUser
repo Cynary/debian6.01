@@ -1,2 +1,2 @@
 #!/bin/sh
-useradd -s /bin/bash $PAM_USER 2> /dev/null || true
+useradd -s /bin/bash $PAM_USER -K UID_MIN=10000 2> /dev/null || true
