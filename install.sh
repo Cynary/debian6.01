@@ -5,7 +5,8 @@ function fail() {
 }
 apt-get update || fail "Update"
 apt-get install emacs-nox dhcpcd5 git build-essential tmux libpam-krb5 krb5-user -y || fail "Package install"
-apt-get remove wicd -y || fail "Package removal"
+apt-get remove wicd -y || fail "Package removal" # No need for this network manager
+apt-get remove alsa-utils -y || fail "Package removal" # This caused reboot to hang; pulseaudio makes this unnecessary
 apt-get autoremove -y || fail "Package removal"
 
 systemctl enable dhcpcd
@@ -28,6 +29,7 @@ install /etc/skel
 install /etc/wpa_supplicant/wpa_supplicant.conf
 install /etc/601 755
 install /etc/601/data 777
+# install /etc/601/data/.ssh 700 # not going to make it public
 
 for f in `find slash -type f | cut -d'/' -f2-`
 do
@@ -50,3 +52,6 @@ update-grub
 # cd ori-0.8.1
 # scons
 # scons PREFIX=/usr/local install
+# useradd orifs_user -d /etc/601/data -s `which bash`
+# chown orifs_user:orifs_user -R /etc/601/data
+# NOTE: add the key files once this is in a private repo.

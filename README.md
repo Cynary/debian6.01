@@ -202,6 +202,23 @@ orifs $REPO
 
 More notes: use `orisync hostadd` to make sure laptops look for sicp-s4 at all times. Otherwise, they will look for local network machines (which is not terrible in itself). It seems that `orisync` will go into a weird undescribed state if the file system is already mounted when you start orisync. Make sure to mount the file system with `orifs` **AFTER** launching `orisync`
 
+### SSH configuration notes
+
+The easiest way to set this up seems to be:
+* Create a user in the local machines (e.g. orifs_user)
+* Make their home directory the place where the repos are going to live (one for each user's encrypted home)
+* Setup the ssh server in the local machines to only allow login as orifs_user
+* Setup the ssh server in the local machines to only allow key based login
+* Setup the ssh server in the local machines to do a chroot jail on orifs_user to its home directory
+* Setup the key to connect to the server, and accept the same key (that way we have ONE key file for all the ORI stuff - simplifies things, and users are unprivileged enough that if that key gets leaked it's not a major security issue -- everything's encrypted anyway, it's easy enough to rollout a new key everywhere, and the local users of the machines don't have access to that file).
+* Create a user in the server that's chrooted and can only be logged in to via key login.
+* Set it up to both use and accep the ORI keypair.
+* Run orisync init etc. on the server as the user to setup the cluster.
+* Run orisync init on the machines to join them to the cluster (this can be done via config files already present on the machines, perhaps, although we need some way to generate machine IDs)
+* Through ssh, the local machines are able to add repositories and then locally they can clone them.
+* Add the main server to the static hosts of the local machines.
+* Let the fun begin :)
+
 TODO
 ----
 
