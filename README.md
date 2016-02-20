@@ -179,7 +179,7 @@ This is really annoying to setup. First, everyone must be able to ssh to each ot
 So, an example setup looks like:
 ### Remote system
 
-Separately run orisync init and configuration. You should be able to just generate the file structure for orisync separately. Interestingly, it seems the key is always the same. Maybe we can have a more secure key by just generating it ourselves separately.
+Separately run `orisync` init and configuration. You should be able to just generate the file structure for `orisync` separately. Interestingly, it seems the key is always the same. Maybe we can have a more secure key by just generating it ourselves separately.
 Make sure that this user's ssh key is installed in the local system. Make sure there is an ssh server running.
 
 `bash
@@ -191,7 +191,7 @@ orifs $REPO # mounts repo
 
 ### Local system
 
-Same story about orisync init and possibly using directory+file structure to do everything. Make sure that your public key is in the remote system and that there is an ssh server running locally as well.
+Same story about `orisync` init and possibly using directory+file structure to do everything. Make sure that your public key is in the remote system and that there is an ssh server running locally as well.
 
 `bash
 ori replicate --shallow $USER@$REMOTE:$REPO
@@ -199,6 +199,8 @@ mkdir $REPO
 orisync
 orifs $REPO
 `
+
+More notes: use `orisync hostadd` to make sure laptops look for sicp-s4 at all times. Otherwise, they will look for local network machines (which is not terrible in itself). It seems that `orisync` will go into a weird undescribed state if the file system is already mounted when you start orisync. Make sure to mount the file system with `orifs` **AFTER** launching `orisync`
 
 TODO
 ----
