@@ -52,13 +52,26 @@ Here's a simple overview of what `install.sh` does:
    Might find other packges to remove, this is a **WORK IN PROGRESS**
 
 4. Autoremove any other unused packages
-5. Enable *dhcpcd*
 
-   The *dhcpcd* service aggressively tries to get DHCP information from every interface. This is what allows the network to reliably stay on in these laptops.
+5. Install ORIFS
+  * Build + Runtime dependencies from debian sources
+  * Enables NTP (for ori to work servers need to be close in time)
+  * ORI from repository
+  * Adds a user to manage ORI repos
 
-6. Set python as a global *alias* for *python3*. That way, when a student types `python` in the terminal, they will get the `python3` terminal.
+    OriFS will keep the student's files in sync across laptops.
 
-   **WORK IN PROGRESS** Debian Stable still has python3 as default, need to check if this will interfere in any way with lib601.
+6. Install new files
+
+   A lot of new files are needed for this system, this step just puts them in their positions:
+   
+  * pam_exec.d files for login/logout scripts
+  * wireless firmware
+  * Thinkpad trackpad/trackpoint configuration
+  * Nice home skeleton for the users
+  * wpa_supplicant configuration to work with MIT (**WORK IN PROGRESS** what other networks?)
+  * 601 specific files (background/scripts)
+  * *orifs_user*'s home directory and SSH keys. Also change ownership of it.
 
 7. Copy files to their positions
 
@@ -66,15 +79,20 @@ Here's a simple overview of what `install.sh` does:
    in a default Debian Jessie system. This step just puts those files in their respective positions (the structure is replicated in this repo).
    This step also sets the correct permissions.
 
-8. Update grub
+8. Enable *dhcpcd*
+
+   The *dhcpcd* service aggressively tries to get DHCP information from every interface. This is what allows the network to reliably stay on in these laptops.
+
+9. Set python as a global *alias* for *python3*. That way, when a student types `python` in the terminal, they will get the `python3` terminal.
+
+   **WORK IN PROGRESS** Debian Stable still has python2 as default, need to check if this will interfere in any way with lib601.
+
+10. Update grub
 
    One of the files we copied was the grub configuration file. This new config file sets the timeout to 0, so we don't have to wait at the load screen.
    It does, however, require that we call `update-grub`
 
-9. Install orifs
-
-   OriFS is used to keep the students' files in sync.
-
+11. Reboot to apply all changes
 
 The Magic
 ---------
@@ -90,12 +108,12 @@ at the end (we instead just add manual). The network configuration is all done i
 can be added, even if they are WPA/WPA2 networks. The guide at [this ubuntu forums thread][wireless] was followed to set this up (it turns out
 that the only way to get reliable wireless is to rely on wpa_supplicant - using the interfaces file was attempted, but did not work out).
 
-### Kerberos login/tickets
+### Kerberos login
 
 The *krb5.conf* simply adds a `forwardable = true` line to the file, so that you can forward tickets, and more easily login to dialup.
 
 **WORK IN PROGRESS** we might use the tickets when we have a new file synchronization mechanism. We might also do it automatically (a la firefox
-certificate stealing, look [here][arch601 for that example).
+certificate stealing, look [here][arch601] for that example).
 
 To also get Kerberos login to work, we had to modify the PAM files. The part that allowed the login to actually happen was mostly there, but it only worked if there was already a user. If that were not true, the login would fail. Modifications from a [previous project][arch601] were used, although they were and will remain largely undocumented. To better control what users get created and make sure no extra users were left on the system, we did some modifications based on the information [here][pam_unsuccessful_login], [here][pam_guide], and [here][pam_exec_man].
 
@@ -103,7 +121,9 @@ To also get Kerberos login to work, we had to modify the PAM files. The part tha
 
 The current login flow looks like:
 If local login fails, but kerberos login succeeds create a new user, along with a home directory for the user. (createUser and pam_mkhomedir do this).
-When a logout happens, as long as it's not one of the specified system users (root, alpha, or beta), then the user gets deleted along with all their files. (this is done in cleanUser).
+When a logout happens, as long as it's not one of the specified system users (root, alpha, beta, or orifs_user), then the user gets deleted along with all their files. (this is done in cleanUser).
+
+**WORK IN PROGRESS** instead let's set up a file flagging whether it was a kerberos login or a system login. All the files will also not get deleted in the future, as they are simply synchronized with ori.
 
 ### Skeleton home directory
 
@@ -134,26 +154,23 @@ There's a few miscelaneous changes with the objective of making the experience b
 
 ### */etc/601*
 
+**WORK IN PROGRESS** need to put an updater script here, and configure systemd to use it; also need to put lib601 installer here; need to setup orifs + encfs.
+
 This special directory contains 6.01-specific files:
 * *wallpaper.svg* - background for greeter+desktop
 * *login.sh* - run automatically on login
-* *data/* - directory where we store the encrypted user's information (to be synced over orifs)
+* *ori/* - home directory for *orifs_user*; will store ssh keys here, and ori repos.
 
-#### */etc/601/data/*
+#### */etc/601/ori/*
 
-The *data/* directory contains the ecrypted home directories of kerberos users. This directory is synchronized with orifs (**TODO** should we just
-mount these on login, and have an orifs system for each home directory?)
-so students can login in any machine and still have their home directories (**TODO**: should we only store certain parts or everything?).
-When a user logs in, a script checks if there is already a home directory in the *data/* directory. If there is, then that one is decrypted and
-used. If there isn't, then a new home directory is created from */etc/skel*, encrypted, and stored in *data/*.
+The *ori/* directory is the home for *orifs_user*. This contains the ssh keys necessary for ori replication and will also contain all the encrypted home directories of kerberos users. This will allow students to login and retrieve data they worked on other machines.
+
+When a user logs in, the PAM scripts check if they ever logged in. If yes, then the ori repo is replicated and encFS is used to mount it as their home directory. Otherwise a new ori repo is setup, created as an encrypted directory, mounted in their home directory, and the contents of */etc/skel* copied there.
 
 **TODO**: to decide whether each student should have their own orifs system, or whether to store them all in the same system. If they have their
 own, then the first step post login is to try and mount it, which could be bad if the network is down.
 
 The general procedure to do this was taken from [here][encfssetup].
-
-**WORK IN PROGRESS** need to put an updater script here, and configure systemd to use it; also need to put lib601 installer here; need to setup
-orifs + encfs.
 
 ### Thinkpad configuration
 
@@ -218,6 +235,10 @@ The easiest way to set this up seems to be:
 * Through ssh, the local machines are able to add repositories and then locally they can clone them.
 * Add the main server to the static hosts of the local machines.
 * Let the fun begin :)
+
+Note2: chroot_jail might not work :/ Make sure to setup AllowUser in the local machine. Perhaps we can use a different chroot_jail with only ori installed? Or a different server altogether for file storage?
+
+Note3: orifs mounts without allowing access to other users by default. Seems easy to modify, I feel it's time to fork it.
 
 TODO
 ----
