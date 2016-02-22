@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Wait for network to be up for 10s
+# Wait for network to be up for 2m
 # 1/.2 = 5
 count=0
 while ! (ping -c 1 sicp-s4.mit.edu &> /dev/null) && ((count<120*5))
