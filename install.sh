@@ -28,9 +28,6 @@ apt-get install emacs-nox dhcpcd5 git build-essential tmux libpam-krb5 \
 apt-get remove wicd -y \
     || fail "Package removal" # No need for this network manager
 
-# This caused reboot to hang; pulseaudio makes this unnecessary
-apt-get remove alsa-utils -y || fail "Package removal"
-
 # Remove any lingering useless packages
 apt-get autoremove -y || fail "Package removal"
 ################################################################################

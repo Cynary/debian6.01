@@ -108,6 +108,11 @@ Plugin {
   }
 }
 Plugin {
+  type=volumealsa
+  Config {
+  }
+}
+Plugin {
   type=launchbar
   Config {
     Button {
