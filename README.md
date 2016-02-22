@@ -46,6 +46,10 @@ Here's a simple overview of what `install.sh` does:
 
      Allows us to use kerberos logins. This will be used in the PAM files
 
+  * *libpam-script* / *encfs*
+
+     Allows us to run scripts on login with access to auth tokens. Used to mount ecrypted homes.
+
 3. Remove unnecessary packages
   * *wicd*
 

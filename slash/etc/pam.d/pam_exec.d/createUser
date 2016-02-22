@@ -1,5 +1,0 @@
-#!/bin/bash
-# Add user. If we are here, then this is a kerberos user.
-useradd -s /bin/bash $PAM_USER -K UID_MIN=10000 2> /dev/null
-# Mark user as logged in via kerberos
-touch /etc/601/logins/$PAM_USER.lock
