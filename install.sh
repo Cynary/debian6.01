@@ -90,6 +90,10 @@ echo "alias python=python3" >> /etc/bash.bashrc
 # Remove grub delay and add background
 update-grub
 
+# These services caused delays on shutdown, disabling them
+systemctl mask alsa-restore.service alsa-store.service
+
+
 echo "To finish the install you need to reboot. Press [ENTER] when ready"
 read -n
 systemctl reboot

@@ -92,6 +92,8 @@ Here's a simple overview of what `install.sh` does:
    One of the files we copied was the grub configuration file. This new config file sets the timeout to 0, so we don't have to wait at the load screen.
    It does, however, require that we call `update-grub`
 
+11. Disable some alsa services that slowed down reboot a lot.
+
 11. Reboot to apply all changes
 
 The Magic
