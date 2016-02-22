@@ -23,7 +23,12 @@ then
     exit 0;
 fi
 
-/usr/sbin/userdel $userid -f -r 2> /dev/null || true
-rm -Rf $homedir
 # Remove lock file
 rm -Rf /etc/601/logins/$PAM_USER.lock
+
+# Delete user
+/usr/sbin/userdel $userid -f 2> /dev/null || true
+
+# Unmount homedir, and remove the directory
+fusermount -uz $homedir
+rm -Rf $homedir
