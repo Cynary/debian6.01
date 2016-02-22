@@ -19,8 +19,8 @@ function install() {
 
 ################################################################################
 # Basic packages to install/remove
-apt-get update || fail "Update"
-apt-get upgrade || fail "Upgrade"
+apt-get update -y || fail "Update"
+apt-get upgrade -y || fail "Upgrade"
 
 apt-get install emacs-nox dhcpcd5 git build-essential tmux libpam-krb5 \
 	krb5-user -y || fail "Package install"
@@ -65,6 +65,20 @@ install /etc/601 755 # 6.01 specific files (e.g. background/scripts)
 install /etc/601/ori/.ssh 700 # ORIFS keys
 install /etc/601/ori/.ssh/authorized_keys 600 # ORIFS keys
 chown orifs_user:orifs_user -R /etc/601/ori # Make orifs_user control it
+################################################################################
+
+################################################################################
+# Install lib601
+apt-get install idle3 python3-numpy python3-matplotlib -y
+PWD=`pwd`
+cd /etc/601/scratch
+wget -N http://sicp-s4.mit.edu/laptops/files/lib601.tar.gz
+tar -zxf lib601.tar.gz
+cd lib601-*
+python3 setup.py install
+cd ..
+rm -rf lib601-*
+cd $PWD
 ################################################################################
 
 ################################################################################
