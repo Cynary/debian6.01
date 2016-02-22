@@ -73,28 +73,30 @@ Here's a simple overview of what `install.sh` does:
   * 601 specific files (background/scripts)
   * *orifs_user*'s home directory and SSH keys. Also change ownership of it.
 
-7. Copy files to their positions
+7. Install lib601
+
+   Installs all the dependencies, fetches the latest lib601 files and installs it.
+
+8. Copy files to their positions
 
    Via the application of a lot of magic (next section explains that magic in some detail) we have a small list of files that need to be modifed
    in a default Debian Jessie system. This step just puts those files in their respective positions (the structure is replicated in this repo).
    This step also sets the correct permissions.
 
-8. Enable *dhcpcd*
+9. Enable *dhcpcd*
 
    The *dhcpcd* service aggressively tries to get DHCP information from every interface. This is what allows the network to reliably stay on in these laptops.
 
-9. Set python as a global *alias* for *python3*. That way, when a student types `python` in the terminal, they will get the `python3` terminal.
+10. Set python as a global *alias* for *python3*. That way, when a student types `python` in the terminal, they will get the `python3` terminal.
 
-   **WORK IN PROGRESS** Debian Stable still has python2 as default, need to check if this will interfere in any way with lib601.
-
-10. Update grub
+11. Update grub
 
    One of the files we copied was the grub configuration file. This new config file sets the timeout to 0, so we don't have to wait at the load screen.
    It does, however, require that we call `update-grub`
 
-11. Disable some alsa services that slowed down reboot a lot.
+12. Disable some alsa services that slowed down reboot a lot.
 
-11. Reboot to apply all changes
+13. Reboot to apply all changes
 
 The Magic
 ---------
