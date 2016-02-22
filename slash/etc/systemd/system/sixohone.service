@@ -1,0 +1,11 @@
+[Unit]
+Description="6.01 updater"
+Wants=network-online.target
+After=network-online.target network.target
+
+[Service]
+Type=oneshot
+ExecStart=/etc/601/updater.sh
+
+[Install]
+WantedBy=multi-user.target
