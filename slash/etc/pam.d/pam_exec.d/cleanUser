@@ -8,33 +8,22 @@ if [ -z $userproperties ]
 then
    # User not found? Weird ...
    exit 1
-   
 fi
 
 homedir=$(echo $userproperties | cut -d ":" -f6)
-
-if [ $(w -h $userid | wc -l) -ne 0 ]
+if [ $(w -h $userid | wc -l) -ne 0 ] || \
+       [ ! -e /etc/601/logins/$PAM_USER.lock ] || \
+       [ "$PAM_TYPE" != "close_session" ]
 then
-    # User is logged in on other terminals, let's not terminate user
+    # These are all cases where an error has not occurred, but we do not want to
+    # kill the user:
+    # - user is logged in somewhere else
+    # - this is not a kerberos login
+    # - this is not a logout
     exit 0;
 fi
-
-if [ "$PAM_TYPE" != "close_session" ]
-then
-    # User is not logging out of a session
-    exit 0;
-fi
-
-for u in root alpha beta orifs_user
-do
-    if [ "$userid" = "$u" ]
-    then
-	# User is special system user - check if there's a way to determine
-	# if it's kerberos. Maybe I should just create a flag for users I
-	# create somewhere, in a file.
-	exit 0;
-    fi
-done
 
 /usr/sbin/userdel $userid -f -r 2> /dev/null || true
 rm -Rf $homedir
+# Remove lock file
+rm -Rf /etc/601/logins/$PAM_USER.lock
