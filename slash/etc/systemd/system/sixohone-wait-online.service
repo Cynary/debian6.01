@@ -12,13 +12,13 @@ Conflicts=shutdown.target
 Wants=network.target
 After=network.target
 Before=internet.target
-TimeoutSec=60
 
 [Service]
 Type=oneshot
 ExecStart=/etc/601/connected.sh start
 ExecStop=/etc/601/connected.sh stop
 RemainAfterExit=yes
+TimeoutSec=60
 
 [Install]
 WantedBy=internet.target
