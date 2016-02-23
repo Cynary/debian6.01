@@ -1,11 +1,15 @@
 [Unit]
-Description="6.01 updater"
-Wants=network-online.target
-After=network-online.target network.target
+Description=6.01 updater
+Conflicts=shutdown.target
+Wants=internet.target
+After=internet.target network-online.target network.target
+Requisite=sixohone-wait-online.service
 
 [Service]
 Type=oneshot
-ExecStart=/etc/601/updater.sh
+ExecStart=/etc/601/updater.sh start
+ExecStop=/etc/601/updater.sh stop
+RemainAfterExit=yes
 
 [Install]
 WantedBy=multi-user.target

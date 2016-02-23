@@ -1,0 +1,24 @@
+#  This file is part of systemd.
+#
+#  systemd is free software; you can redistribute it and/or modify it
+#  under the terms of the GNU Lesser General Public License as published by
+#  the Free Software Foundation; either version 2.1 of the License, or
+#  (at your option) any later version.
+
+[Unit]
+Description=Wait for Connection to S4 to show up
+DefaultDependencies=no
+Conflicts=shutdown.target
+Wants=network.target
+After=network.target
+Before=internet.target
+TimeoutSec=60
+
+[Service]
+Type=oneshot
+ExecStart=/etc/601/connected.sh start
+ExecStop=/etc/601/connected.sh stop
+RemainAfterExit=yes
+
+[Install]
+WantedBy=internet.target

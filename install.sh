@@ -65,6 +65,8 @@ install /etc/601 755 # 6.01 specific files (e.g. background/scripts)
 install /etc/601/ori/.ssh 700 # ORIFS keys
 install /etc/601/ori/.ssh/authorized_keys 600 # ORIFS keys
 install /etc/systemd/system/sixohone.service 755 # bootup service
+install /etc/systemd/system/sixohone-wait-online.service 755 # bootup service
+install /etc/systemd/system/internet.service 755 # bootup service
 install /usr/share/libpam-script/pam_auth_script 755 # user creator
 chown orifs_user:orifs_user -R /etc/601/ori # Make orifs_user control it
 ################################################################################
@@ -108,9 +110,10 @@ update-grub
 
 # These services caused delays on shutdown, disabling them
 systemctl mask alsa-restore.service alsa-store.service
+systemctl disable alsa-restore.service alsa-store.service
 
 # Enable 6.01 updater on startup
-systemctl enable sixohone
+systemctl enable sixohone-wait-online sixohone
 
 echo "To finish the install you need to reboot. Press [ENTER] when ready"
 read -n
