@@ -48,7 +48,7 @@ cd $ORI_REPO
 scons
 scons PREFIX=/usr/local install
 cd -
-rm -fs $ORI_REPO
+rm -fr $ORI_REPO
 
 # This user will be the one to use orifs
 useradd orifs_user -d /etc/601/ori -s `which bash`
@@ -66,15 +66,15 @@ install /etc/601/ori/.ssh 700 # ORIFS keys
 install /etc/601/ori/.ssh/authorized_keys 600 # ORIFS keys
 install /etc/systemd/system/sixohone.service 755 # bootup service
 install /etc/systemd/system/sixohone-wait-online.service 755 # bootup service
-install /etc/systemd/system/internet.service 755 # bootup service
-install /usr/share/libpam-script/pam_auth_script 755 # user creator
+install /etc/systemd/system/internet.target 755 # bootup service
+install /usr/share/libpam-script/pam_script_auth 755 # user creator
 chown orifs_user:orifs_user -R /etc/601/ori # Make orifs_user control it
 ################################################################################
 
 ################################################################################
 # Install lib601
 apt-get install idle3 python3-numpy python3-matplotlib -y
-PWD=`pwd`
+PREVIOUS_PWD=`pwd`
 cd /etc/601/scratch
 wget -N http://sicp-s4.mit.edu/laptops/files/lib601.tar.gz
 tar -zxf lib601.tar.gz
@@ -82,7 +82,7 @@ cd lib601-*
 python3 setup.py install
 cd ..
 rm -rf lib601-*
-cd $PWD
+cd $PREVIOUS_PWD
 ################################################################################
 
 ################################################################################
@@ -116,5 +116,5 @@ systemctl disable alsa-restore.service alsa-store.service
 systemctl enable sixohone-wait-online sixohone
 
 echo "To finish the install you need to reboot. Press [ENTER] when ready"
-read -n
+read
 systemctl reboot
