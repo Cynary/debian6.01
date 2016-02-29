@@ -1,7 +1,9 @@
 [Default Applications]
 inode/directory=pcmanfm.desktop
 image/png=gpicview.desktop
+text/x-python=idle3.desktop
 
 [Added Associations]
 inode/directory=pcmanfm.desktop;
 image/png=gpicview.desktop;
+text/x-python=idle3.desktop;

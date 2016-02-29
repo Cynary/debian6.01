@@ -68,6 +68,7 @@ install /etc/systemd/system/sixohone.service 755 # bootup service
 install /etc/systemd/system/sixohone-wait-online.service 755 # bootup service
 install /etc/systemd/system/internet.target 755 # bootup service
 install /usr/share/libpam-script/pam_script_auth 755 # user creator
+install /usr/share/applications/mimeapps.list 755 # mimeapps
 chown orifs_user:orifs_user -R /etc/601/ori # Make orifs_user control it
 ################################################################################
 
