@@ -10,7 +10,7 @@ install -m700 -o $PAM_USER -g $PAM_USER -d /home/$PAM_USER || exit 1
 ###### START ORIFS STUFF HERE INSTEAD LATER ######
 if [ ! -e /etc/601/ori/$PAM_USER ]
 then
-    [ -n `mount | grep -w /home/$PAM_USER` ] || exit 1
+    [ -z `mount | grep -w /home/$PAM_USER` ] || exit 1
     # Let's create the directory which will have the encrypted data
     install -m700 -o $PAM_USER -g $PAM_USER -d /etc/601/ori/$PAM_USER || exit 1
     # Let's encrypt it!
@@ -27,7 +27,7 @@ fi
 chown -R $PAM_USER:$PAM_USER /etc/601/ori/$PAM_USER
 
 # Mount home directory it not mounted already
-if [ -n `mount | grep -w /home/$PAM_USER` ]
+if [ -z "`mount | grep -w /home/$PAM_USER`" ]
 then
     echo $PAM_AUTHTOK | sudo -u $PAM_USER encfs -S /etc/601/ori/$PAM_USER /home/$PAM_USER -- -o allow_other || exit 1
 fi
