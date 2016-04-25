@@ -1,0 +1,39 @@
+#!/bin/bash
+# Attempt to login to cat-soop
+SID=`(echo $PAM_USER; echo $PAM_AUTHTOK) | /etc/601/catlogin.py` || exit 1
+# We've succeeded on the login!
+# Add user. If we are here, then this is a cat-soop user.
+useradd -s /bin/bash $PAM_USER -d /home/$PAM_USER -K UID_MIN=10000 2> /dev/null
+# Mark user as logged in via kerberos
+touch /etc/601/logins/$PAM_USER.lock
+
+# Create directory which will have unencrypted data
+install -m700 -o $PAM_USER -g $PAM_USER -d /home/$PAM_USER || exit 1
+
+###### START ORIFS STUFF HERE INSTEAD LATER ######
+if [ ! -e /etc/601/ori/$PAM_USER ]
+then
+    [ -n `mount | grep -w /home/$PAM_USER` ] || exit 1
+    # Let's create the directory which will have the encrypted data
+    install -m700 -o $PAM_USER -g $PAM_USER -d /etc/601/ori/$PAM_USER || exit 1
+    # Let's encrypt it!
+    ( echo; echo $PAM_AUTHTOK; echo $PAM_AUTHTOK; ) | \
+	encfs -S /etc/601/ori/$PAM_USER /home/$PAM_USER &> /dev/null || exit 1
+    # Fill it with skel
+    cp -r /etc/skel/. /home/$PAM_USER
+    chown -R $PAM_USER:$PAM_USER /home/$PAM_USER
+    fusermount -u /home/$PAM_USER || exit 1
+fi
+###### END ORIFS STUFF HERE INSTEAD LATER ######
+
+# Make sure current user owns encrypted directory
+chown -R $PAM_USER:$PAM_USER /etc/601/ori/$PAM_USER
+
+# Mount home directory it not mounted already
+if [ -n `mount | grep -w /home/$PAM_USER` ]
+then
+    echo $PAM_AUTHTOK | sudo -u $PAM_USER encfs -S /etc/601/ori/$PAM_USER /home/$PAM_USER -- -o allow_other || exit 1
+fi
+
+# Setup firefox profile
+(echo $SID; echo /home/$PAM_USER) | /etc/601/firefox_profile.py
