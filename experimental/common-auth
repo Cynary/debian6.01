@@ -15,8 +15,9 @@
 
 # here are the per-package modules (the "Primary" block)
 # auth	[success=2 default=ignore]	pam_krb5.so minimum_uid=10000
-auth	[success=2 default=ignore]	pam_unix.so nullok_secure try_first_pass
-auth	[success=1 default=ignore]	pam_script.so
+auth	[success=3 default=ignore]	pam_unix.so nullok_secure try_first_pass
+auth	[success=2 default=ignore]	pam_script.so
+auth	optional   			pam_echo.so		  file=/etc/601/message
 # here's the fallback if no module succeeds
 auth	requisite			pam_deny.so
 # Create user for kerberos
