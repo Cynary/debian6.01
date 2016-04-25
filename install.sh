@@ -23,7 +23,7 @@ apt-get update -y || fail "Update"
 apt-get upgrade -y || fail "Upgrade"
 
 apt-get install emacs-nox dhcpcd5 git build-essential tmux libpam-krb5 \
-	krb5-user libpam-script encfs -y || fail "Package install"
+	krb5-user libpam-script encfs curl python3-pycurl -y || fail "Package install"
 
 apt-get remove wicd -y \
     || fail "Package removal" # No need for this network manager
@@ -33,25 +33,25 @@ apt-get autoremove -y || fail "Package removal"
 ################################################################################
 
 ################################################################################
-# Install orifs
-# Build/runtime dependencies
-apt-get install scons pkg-config libboost-dev uuid-dev libfuse-dev \
-	libevent-dev libssl-dev fuse libedit-dev ntp openssh-server -y
+# # Install orifs
+# # Build/runtime dependencies
+# apt-get install scons pkg-config libboost-dev uuid-dev libfuse-dev \
+# 	libevent-dev libssl-dev fuse libedit-dev ntp openssh-server -y
 
-# Servers need to have time synchronized for everything to work
-systemctl enable ntp
+# # Servers need to have time synchronized for everything to work
+# systemctl enable ntp
 
-# Clone the repo and build
-ORI_REPO=`mktemp -d`
-git clone http://bitbucket.org/orifs/ori.git $ORI_REPO
-cd $ORI_REPO
-scons
-scons PREFIX=/usr/local install
-cd -
-rm -fr $ORI_REPO
+# # Clone the repo and build
+# ORI_REPO=`mktemp -d`
+# git clone http://bitbucket.org/orifs/ori.git $ORI_REPO
+# cd $ORI_REPO
+# scons
+# scons PREFIX=/usr/local install
+# cd -
+# rm -fr $ORI_REPO
 
-# This user will be the one to use orifs
-useradd orifs_user -d /etc/601/ori -s `which bash`
+# # This user will be the one to use orifs
+# useradd orifs_user -d /etc/601/ori -s `which bash`
 ################################################################################
 
 ################################################################################
