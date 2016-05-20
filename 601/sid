@@ -1,0 +1,1 @@
+insert into moz_cookies (baseDomain, name, value, host, path, expiry, lastAccessed, creationTime, isSecure, isHttpOnly) VALUES ('mit.edu', 'sid', '76035ed63d794462be5d7acb50833fcb', 'sicp-s4.mit.edu', '/6.01p/', 1461474450, 1461388044, 1461388044, 0, 0);

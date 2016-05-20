@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Extraction of user properties and checking if user is active
+# based heavily on https://www.howtoforge.com/encrypting_encfs_pam_script
+userid=$PAM_USER
+userproperties=$(getent passwd | grep -m 1 -E "^$userid")
+if [ -z $userproperties ]
+then
+   # User not found? Weird ...
+   exit 1
+fi
+
+homedir=$(echo $userproperties | cut -d ":" -f6)
+if [ $(w -h $userid | wc -l) -ne 0 ] || \
+       [ ! -e /etc/601/logins/$PAM_USER.lock ] || \
+       [ "$PAM_TYPE" != "close_session" ]
+then
+    # These are all cases where an error has not occurred, but we do not want to
+    # kill the user:
+    # - user is logged in somewhere else
+    # - this is not a kerberos login
+    # - this is not a logout
+    exit 0;
+fi
+
+# Remove lock file
+rm -Rf /etc/601/logins/$PAM_USER.lock
+
+# Delete user
+/usr/sbin/userdel $userid -f 2> /dev/null || true
+
+# Unmount homedir, and remove the directory
+fusermount -uz $homedir
+rm -Rf $homedir
